@@ -19,7 +19,12 @@ st.header("Build Graph")
 node_input = st.text_input("Add node label", "")
 if st.button("Add Node") and node_input:
     st.session_state.graph.add_node(node_input)
-    st.experimental_rerun()
+    # Rerun the script to refresh widgets. ``st.rerun`` is available in newer
+    # versions of Streamlit, while older releases provide ``experimental_rerun``.
+    if hasattr(st, "rerun"):
+        st.rerun()
+    elif hasattr(st, "experimental_rerun"):
+        st.experimental_rerun()
 
 if st.session_state.graph.nodes:
     col1, col2 = st.columns(2)
